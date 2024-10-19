@@ -15,7 +15,7 @@ pipeline {
             ],
             causeString: 'Triggered on $action of Pull Request $pr_id',
             printContributedVariables: false,
-            printPostContent: true,
+            printPostContent: false,
             regexpFilterText: '$action',
             regexpFilterExpression: 'opened|reopened|synchronize'
         )
