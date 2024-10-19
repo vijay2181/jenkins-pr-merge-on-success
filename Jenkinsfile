@@ -17,7 +17,7 @@ pipeline {
                 [key: 'pr_branch', value: '$.pull_request.head.ref']
             ],
             causeString: 'Triggered on $action of Pull Request $pr_id',
-            token: 'vijay-token', // Optional: if you use a secret token in the webhook.
+            token: 'vijay-token', // Optional: if you use a secret token in the webhook
             printContributedVariables: false,
             printPostContent: false,
             regexpFilterText: '$action',
@@ -29,6 +29,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
+                    // Log the branch name being checked out
+                    echo "Checking out branch: ${env.pr_branch}"
+                    
                     // Ensure branch name is set correctly
                     def branchName = env.pr_branch
                     git url: "${REPO_URL}", branch: branchName
