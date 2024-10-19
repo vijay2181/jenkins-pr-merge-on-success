@@ -33,10 +33,10 @@ pipeline {
             steps {
                 script {
                     // Add your testing scripts here
-                    echo "Running tests for Pull Request ${env.pr_id}"
-                    echo "${env.action}"
-                    echo "${env.pr_state}"
-                    echo "${env.pr_number}"
+                    echo "Pull Request Number: ${env.pr_number}"
+                    echo "Pull Request ID: ${env.pr_id}"
+                    echo "Pull Request Action: ${env.action}"
+                    echo "Pull Request State: ${env.pr_state}"
                 }
             }
         }
