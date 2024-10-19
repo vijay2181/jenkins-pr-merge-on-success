@@ -36,7 +36,7 @@ pipeline {
                     echo "Running tests for Pull Request ${env.pr_id}"
                     echo "${env.action}"
                     echo "${env.pr_state}"
-                    echo "${pr_number}"
+                    echo "${env.pr_number}"
                 }
             }
         }
