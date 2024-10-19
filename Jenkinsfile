@@ -70,7 +70,7 @@ pipeline {
             steps {
                 script {
                     echo "Testing..."
-                    boolean testsPassed = true // Replace with actual test result
+                    boolean testsPassed = true // Replace with actual test result.
                     if (!testsPassed) {
                         setBuildStatus("failure", "Tests failed")
                         error("Tests failed")
