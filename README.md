@@ -30,7 +30,7 @@ sudo systemctl status jenkins
 
 <img width="822" alt="Screenshot 2024-10-19 at 12 45 43 PM" src="https://github.com/user-attachments/assets/db6c1f60-5b8f-4044-b8a0-563937ed626d">
 
-### Create a Jenkins Pipeline Job
+### Create a Jenkins Pipeline Job.
 
 
 
