@@ -30,7 +30,7 @@ pipeline {
             steps {
                 script {
                     // Ensure branch name is set correctly
-                    def branchName = env.pr_branch ?: 'main'
+                    def branchName = env.pr_branch
                     git url: "${REPO_URL}", branch: branchName
                     env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 }
