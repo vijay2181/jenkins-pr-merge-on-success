@@ -10,6 +10,7 @@ pipeline {
             genericVariables: [
                 [key: 'action', value: '$.action'],
                 [key: 'pr_id', value: '$.pull_request.id'],
+                [key: 'pr_number', value: '$.pull_request.number'],
                 [key: 'pr_state', value: '$.pull_request.state']
             ],
             causeString: 'Triggered on $action of Pull Request $pr_id',
@@ -35,6 +36,7 @@ pipeline {
                     echo "Running tests for Pull Request ${env.pr_id}"
                     echo "${env.action}"
                     echo "${env.pr_state}"
+                    echo "${pr_number}"
                 }
             }
         }
