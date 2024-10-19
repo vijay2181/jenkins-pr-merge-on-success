@@ -94,6 +94,8 @@ Feature: It should be possible to trigger for GitHub pull request events.
 <img width="1569" alt="Screenshot 2024-10-19 at 5 45 17 PM" src="https://github.com/user-attachments/assets/1dd729bf-ed81-4011-b7f2-72d2fcc18e87">
 
 - APPLY AND SAVE
+- Note:
+- In the Jenkins job configuration, the "Branches to build" setting typically specifies which branches should be built by the job. When dealing with pull requests (PRs), you generally want this setting to adapt dynamically to the PR's source branch, rather than being hardcoded to a specific branch like main or feature-add-changes. so to get that dynamic nature you should go with multi branch pipeline
 
 
 ### Configure Webhook
