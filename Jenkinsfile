@@ -33,7 +33,6 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    bat
                     // Log the branch name being checked out
                     echo "Checking out branch: ${env.pr_branch}"
                     
