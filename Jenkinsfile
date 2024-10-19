@@ -25,7 +25,6 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                batch
                 git url: "${env.GITHUB_REPO}", branch: 'main'
             }
         }
@@ -34,6 +33,7 @@ pipeline {
             steps {
                 script {
                     // Add your testing scripts here
+                    bat
                     echo "Pull Request Number: ${env.pr_number}"
                     echo "Pull Request ID: ${env.pr_id}"
                     echo "Pull Request Action: ${env.action}"
