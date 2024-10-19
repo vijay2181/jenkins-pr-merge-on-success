@@ -90,16 +90,27 @@ pipeline {
 // Define the function to set the build status
 void setBuildStatus(String state, String description) {
     withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
-        sh """
-            curl -X POST \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            -H "Content-Type: application/json" \
-            -d '{
-                "state": "${state}",
-                "description": "${description}",
-                "context": "${CONTEXT}"
-            }' \
-            ${GITHUB_API_URL}/statuses/${env.GIT_COMMIT}
+        def commitUrl = "${GITHUB_API_URL}/statuses/${env.GIT_COMMIT}"
+        echo "Setting build status for commit: ${env.GIT_COMMIT} at ${commitUrl}"
+        
+        def payload = """
+        {
+            "state": "${state}",
+            "description": "${description}",
+            "context": "${CONTEXT}"
+        }
         """
+        
+        echo "Payload: ${payload}"
+        
+        def response = sh(script: """
+            curl -X POST \
+            -H "Authorization: token \$GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '${payload}' \
+            ${commitUrl}
+        """, returnStdout: true).trim()
+
+        echo "Response from GitHub: ${response}"
     }
 }
