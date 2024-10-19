@@ -2,8 +2,9 @@ pipeline {
     agent any
 
     environment {
-        GITHUB_REPO = 'https://github.com/vijay2181/jenkins-pr-merge-on-success.git'
-        GITHUB_CREDENTIALS_ID = 'git-credentials' // Update with your GitHub credentials ID in Jenkins
+        REPO_URL = 'https://github.com/vijay2181/jenkins-pr-merge-on-success'
+        CONTEXT = 'ci/jenkins/build-status'
+        GITHUB_API_URL = 'https://api.github.com/repos/vijay2181/jenkins-pr-merge-on-success'
     }
 
     triggers {
@@ -22,11 +23,11 @@ pipeline {
             regexpFilterExpression: 'opened|reopened|synchronize'
         )
     }
-
+    
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                git url: "${env.GITHUB_REPO}", branch: 'main'
+                git url: "${REPO_URL}", branch: 'feature-add-changes'
                 script {
                     // Ensure GIT_COMMIT is set correctly
                     env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
@@ -34,7 +35,16 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+        stage('Initialize') {
+            steps {
+                script {
+                    // Set the initial commit status to pending
+                    setBuildStatus("pending", "Build started")
+                }
+            }
+        }
+
+        stage('Build Steps') {
             steps {
                 script {
                     // Add your testing scripts here
@@ -46,20 +56,15 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Test') {
             steps {
                 script {
-                    // Add your build scripts here
-                    echo "Building project for Pull Request ${env.pr_id}"
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                script {
-                    // Add your deployment scripts here
-                    echo "Deploying project for Pull Request ${env.pr_id}"
+                    echo "Testing..."
+                    boolean testsPassed = true // Replace with actual test result
+                    if (!testsPassed) {
+                        setBuildStatus("failure", "Tests failed")
+                        error("Tests failed")
+                    }
                 }
             }
         }
@@ -68,39 +73,30 @@ pipeline {
     post {
         success {
             script {
-                // Post success status to GitHub
-                setGitHubCommitStatus('success', 'All checks passed')
+                setBuildStatus("success", "Build and tests succeeded")
             }
         }
         failure {
             script {
-                // Post failure status to GitHub
-                setGitHubCommitStatus('failure', 'Build failed')
+                setBuildStatus("failure", "Build or tests failed")
             }
-        }
-        always {
-            echo "Pipeline for PR ${env.pr_id} completed."
         }
     }
 }
 
-// Function to set GitHub commit status
-def setGitHubCommitStatus(String state, String description) {
-    withCredentials([usernamePassword(credentialsId: env.GITHUB_CREDENTIALS_ID, usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
-        def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-        def context = 'Jenkins'
-
-        def payload = [
-            state: state,
-            target_url: "${env.BUILD_URL}",
-            description: description,
-            context: context
-        ]
-
-        def payloadJson = groovy.json.JsonOutput.toJson(payload)
-
+// Define the function to set the build status
+void setBuildStatus(String state, String description) {
+    withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
         sh """
-            curl -s -X POST -H "Authorization: token ${GITHUB_TOKEN}" -H "Content-Type: application/json" -d '${payloadJson}' "https://api.github.com/repos/vijay2181/jenkins-pr-merge-on-success/statuses/${commitSha}"
+            curl -X POST \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d '{
+                "state": "${state}",
+                "description": "${description}",
+                "context": "${CONTEXT}"
+            }' \
+            ${GITHUB_API_URL}/statuses/${env.GIT_COMMIT}
         """
     }
 }
