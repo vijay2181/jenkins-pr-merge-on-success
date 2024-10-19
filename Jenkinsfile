@@ -13,7 +13,7 @@ pipeline {
                 [key: 'pr_state', value: '$.pull_request.state']
             ],
             causeString: 'Triggered on $action of Pull Request $pr_id',
-            token: 'your-webhook-token', // Optional: if you use a secret token in the webhook
+            token: 'your-webhook-token', // Optional: if you use a secret token in the webhook.
             printContributedVariables: true,
             printPostContent: true,
             regexpFilterText: '$action',
