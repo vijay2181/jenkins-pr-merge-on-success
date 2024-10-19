@@ -13,7 +13,8 @@ pipeline {
                 [key: 'action', value: '$.action'],
                 [key: 'pr_id', value: '$.pull_request.id'],
                 [key: 'pr_number', value: '$.pull_request.number'],
-                [key: 'pr_state', value: '$.pull_request.state']
+                [key: 'pr_state', value: '$.pull_request.state'],
+                [key: 'pr_branch', value: '$.pull_request.head.ref']
             ],
             causeString: 'Triggered on $action of Pull Request $pr_id',
             token: 'vijay-token', // Optional: if you use a secret token in the webhook.
@@ -27,10 +28,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git url: "${REPO_URL}", branch: 'feature-add-changes'
                 script {
-                    bat
-                    // Ensure GIT_COMMIT is set correctly
+                    // Ensure branch name is set correctly
+                    def branchName = env.pr_branch ?: 'main'
+                    git url: "${REPO_URL}", branch: branchName
                     env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 }
             }
@@ -53,6 +54,7 @@ pipeline {
                     echo "Pull Request ID: ${env.pr_id}"
                     echo "Pull Request Action: ${env.action}"
                     echo "Pull Request State: ${env.pr_state}"
+                    echo "Pull Request Branch: ${env.pr_branch}"
                 }
             }
         }
