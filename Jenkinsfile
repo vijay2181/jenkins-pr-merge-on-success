@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'feature-add-changes', description: 'Branch to build')
+    }
+
     environment {
         REPO_URL = 'https://github.com/vijay2181/jenkins-pr-merge-on-success'
         CONTEXT = 'ci/jenkins/build-status'
