@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/vijay2181/jenkins-pr-merge-on-success.git'
-        bat
     }
 
     triggers {
@@ -26,6 +25,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
+                batch
                 git url: "${env.GITHUB_REPO}", branch: 'main'
             }
         }
