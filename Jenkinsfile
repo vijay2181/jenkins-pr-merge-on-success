@@ -1,54 +1,46 @@
-pipeline {
-    agent any
+node {
+ properties([
+  pipelineTriggers([
+   [$class: 'GenericTrigger',
+    genericVariables: [
+     [key: 'number', value: '$.number']//,
+    //  [
+    //   key: 'before',
+    //   value: '$.before',
+    //   expressionType: 'JSONPath', //Optional, defaults to JSONPath
+    //   regexpFilter: '', //Optional, defaults to empty string
+    //   defaultValue: '' //Optional, defaults to empty string
+    //  ]
+    ],
+    // genericRequestVariables: [
+    //  [key: 'requestWithNumber', regexpFilter: '[^0-9]'],
+    //  [key: 'requestWithString', regexpFilter: '']
+    // ],
+    // genericHeaderVariables: [
+    //  [key: 'headerWithNumber', regexpFilter: '[^0-9]'],
+    //  [key: 'headerWithString', regexpFilter: '']
+    // ],
 
-    environment {
-        GIT_URL = 'https://github.com/vijay2181/jenkins-pr-merge-on-success.git'
-        GIT_BRANCH = 'main'
-    }
+    causeString: 'Triggered on $number',
 
-    stages {
-        stage('Checkout') {
-            steps {
-                script {
-                    checkout([
-                        $class: 'GitSCM',
-                        branches: [[name: "*/${env.GIT_BRANCH}"]],
-                        doGenerateSubmoduleConfigurations: false,
-                        extensions: [],
-                        userRemoteConfigs: [[url: "${env.GIT_URL}"]]
-                    ])
-                }
-            }
-        }
+    token: 'abc123',
+    tokenCredentialId: '',
 
-        stage('Build') {
-            steps {
-                echo 'Building...'
-                // Add your build steps here
-            }
-        }
+    printContributedVariables: true,
+    printPostContent: true,
 
-        stage('Test') {
-            steps {
-                echo 'Testing...'
-                // Add your test steps here
-            }
-        }
+    silentResponse: false,
 
-        stage('Deploy') {
-            steps {
-                echo 'Deploying...'
-                // Add your deploy steps here
-            }
-        }
-    }
+    regexpFilterText: '$number',
+    regexpFilterExpression: env.CHANGE_ID
+   ]
+  ])
+ ])
 
-    post {
-        success {
-            echo 'Pipeline completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
-        }
-    }
+ stage("build") {
+  sh '''
+  echo Variables from shell:
+  echo number $number
+  '''
+ }
 }
