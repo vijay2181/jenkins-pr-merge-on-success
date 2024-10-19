@@ -17,7 +17,7 @@ pipeline {
                 [key: 'pr_branch', value: '$.pull_request.head.ref']
             ],
             causeString: 'Triggered on $action of Pull Request $pr_id',
-            token: 'vijay-token', // Optional: if you use a secret token in the webhook
+            token: 'vijay-token', // Optional: if you use a secret token in the webhook.
             printContributedVariables: false,
             printPostContent: false,
             regexpFilterText: '$action',
