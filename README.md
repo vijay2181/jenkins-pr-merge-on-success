@@ -1,0 +1,1 @@
+# jenkins-pr-merge-on-success
