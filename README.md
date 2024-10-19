@@ -148,7 +148,18 @@ Feature: It should be possible to trigger for GitHub pull request events.
 
 <img width="953" alt="Screenshot 2024-10-19 at 6 11 03 PM" src="https://github.com/user-attachments/assets/5530b130-7f7a-477c-859e-baf77714c3ac">
 
-- so we need to add a rule
+- so we need to get a feedback from jenkins to pr status
+- i have added changes in jenkinsfile
+- so when build got failed, pr merge will be blocked
+- when we raise pr make sure we chnage branch name in Jenkinsfile
+
+<img width="779" alt="Screenshot 2024-10-19 at 11 10 02 PM" src="https://github.com/user-attachments/assets/75e26e77-3546-44c5-9508-c10f04e90b0a">
+
+<img width="1160" alt="Screenshot 2024-10-19 at 11 13 36 PM" src="https://github.com/user-attachments/assets/72ddb61c-aa3f-4d89-bbc1-978e817d47f9">
+
+<img width="987" alt="Screenshot 2024-10-19 at 11 08 44 PM" src="https://github.com/user-attachments/assets/e56e755e-fc8d-4495-9448-dccb01a2333a">
+
+<img width="965" alt="Screenshot 2024-10-19 at 11 12 27 PM" src="https://github.com/user-attachments/assets/12378986-f445-4a83-9ea6-2d3f038264b1">
 
 
 
