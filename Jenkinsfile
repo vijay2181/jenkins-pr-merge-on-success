@@ -27,6 +27,10 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 git url: "${env.GITHUB_REPO}", branch: 'main'
+                script {
+                    // Ensure GIT_COMMIT is set correctly
+                    env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                }
             }
         }
 
