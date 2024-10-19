@@ -29,6 +29,7 @@ pipeline {
             steps {
                 git url: "${REPO_URL}", branch: 'feature-add-changes'
                 script {
+                    bat
                     // Ensure GIT_COMMIT is set correctly
                     env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                 }
