@@ -61,7 +61,7 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline for PR ${env.pr_id} completed"
+            echo "Pipeline for PR ${env.pr_id} completed."
         }
     }
 }
