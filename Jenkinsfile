@@ -14,8 +14,7 @@ pipeline {
                 [key: 'pr_state', value: '$.pull_request.state']
             ],
             causeString: 'Triggered on $action of Pull Request $pr_id',
-            token: 'your-webhook-token', // Optional: if you use a secret token in the webhook.
-            printContributedVariables: true,
+            printContributedVariables: false,
             printPostContent: true,
             regexpFilterText: '$action',
             regexpFilterExpression: 'opened|reopened|synchronize'
