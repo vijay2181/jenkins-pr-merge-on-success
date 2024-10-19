@@ -33,6 +33,8 @@ pipeline {
                 script {
                     // Add your testing scripts here
                     echo "Running tests for Pull Request ${env.pr_id}"
+                    echo "${env.action}"
+                    echo "${env.pr_state}"
                 }
             }
         }
