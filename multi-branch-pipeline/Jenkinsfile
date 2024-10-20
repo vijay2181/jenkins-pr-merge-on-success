@@ -32,21 +32,4 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            script {
-                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
-                    setBuildStatus("success", "Build and tests succeeded")
-                }
-            }
-        }
-        failure {
-            script {
-                withCredentials([string(credentialsId: 'github-token', variable: 'GITHUB_TOKEN')]) {
-                    setBuildStatus("failure", "Build or tests failed")
-                }
-            }
-        }
-    }
 }
