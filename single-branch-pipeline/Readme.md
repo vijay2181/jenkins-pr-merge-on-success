@@ -161,6 +161,27 @@ Feature: It should be possible to trigger for GitHub pull request events.
 
 <img width="965" alt="Screenshot 2024-10-19 at 11 12 27 PM" src="https://github.com/user-attachments/assets/12378986-f445-4a83-9ea6-2d3f038264b1">
 
+- if build is failed, then it should fail status check
+- even though status check is failed, still we can able to merge
+- we should block merge if status check fails
+- we need to ensure that a pull request cannot be merged if the status check fails, we need to configure the required status checks in our GitHub repository settings. Here is a step-by-step guide
+
+### Step 1: Configure GitHub Repository
+
+1. **Navigate to Repository Settings**:
+   - Go to your GitHub repository.
+   - Click on `Settings`.
+
+2. **Branch Protection Rules**:
+   - In the left sidebar, click on `Branches`.
+   - Under `Branch protection rules`, click on `Add rule`.
+
+3. **Set Up Rule**:
+   - Specify the branch name pattern you want to protect (e.g., `main` or `master`).
+   - Check the box `Require status checks to pass before merging`.
+   - Select the status check `ci/jenkins/build-status` from the list.
+   - Optionally, check `Require branches to be up to date before merging` to ensure the branch is up-to-date with the base branch before it can be merged.
+   - Click on `Create`
 
 
 
