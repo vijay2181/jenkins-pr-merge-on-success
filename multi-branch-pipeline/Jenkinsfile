@@ -25,7 +25,6 @@ pipeline {
             steps {
                 script {
                     // Add your testing scripts here
-                    bat
                     echo "Pull Request Number: ${env.CHANGE_ID}"
                     echo "Pull Request Traget Branch: ${env.CHANGE_TARGET}"
                     echo "Pull Request Branch: ${env.BRANCH_NAME}"
