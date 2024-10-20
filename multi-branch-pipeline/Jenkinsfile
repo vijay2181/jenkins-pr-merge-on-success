@@ -45,21 +45,6 @@ pipeline {
             }
         }
     }
-
-    post {
-        success {
-            script {
-                // Success actions, e.g., update GitHub status
-                setBuildStatus("success", "Build and tests succeeded")
-            }
-        }
-        failure {
-            script {
-                // Failure actions, e.g., update GitHub status
-                setBuildStatus("failure", "Build or tests failed")
-            }
-        }
-    }
 }
 
 def cancelPreviousBuilds() {
