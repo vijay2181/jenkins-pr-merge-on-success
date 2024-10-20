@@ -143,6 +143,8 @@ sudo systemctl status jenkins
 
 ### Fail in-progress build if new commit is added 
 
+<img width="1271" alt="Screenshot 2024-10-20 at 11 22 36 PM" src="https://github.com/user-attachments/assets/816b7b5b-8afe-4e33-97c0-e54bc6f930e5">
+
 - we need to approve this nearly more than 5 times
 - Scripts not permitted to use staticMethod jenkins.model.Jenkins getInstance at PluginClassLoader for script-
 
