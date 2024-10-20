@@ -15,7 +15,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    // Log the branch name being checked out
+                    // Log the branch name being checked out.
                     echo "Checking out branch: ${env.pr_branch}"
                     
                     // Ensure branch name is set correctly
