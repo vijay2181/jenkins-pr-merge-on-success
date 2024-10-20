@@ -6,16 +6,16 @@ pipeline {
         CONTEXT = 'ci/jenkins/build-status'
         GITHUB_API_URL = 'https://api.github.com/repos/vijay2181/jenkins-pr-merge-on-success'
     }
-    
+
     stages {
         stage('Checkout') {
             steps {
                 script {
-                    // Log the branch name being checked out.
-                    echo "Checking out branch: ${env.pr_branch}"
+                    // Use Jenkins environment variables for the branch name
+                    def branchName = env.BRANCH_NAME
+                    echo "Checking out branch: ${branchName}"
                     
-                    // Ensure branch name is set correctly
-                    def branchName = env.pr_branch
+                    // Checkout the branch
                     git url: "${REPO_URL}", branch: branchName
                 }
             }
@@ -25,15 +25,12 @@ pipeline {
             steps {
                 script {
                     // Add your testing scripts here
-                    echo "Pull Request Number: ${env.pr_number}"
-                    echo "Pull Request ID: ${env.pr_id}"
-                    echo "Pull Request Action: ${env.action}"
-                    echo "Pull Request State: ${env.pr_state}"
-                    echo "Pull Request Branch: ${env.pr_branch}"
+                    echo "Pull Request Number: ${env.CHANGE_ID}"
+                    echo "Pull Request Action: ${env.CHANGE_TARGET}"
+                    echo "Pull Request Branch: ${env.BRANCH_NAME}"
                 }
             }
         }
-
     }
 
     post {
@@ -48,4 +45,24 @@ pipeline {
             }
         }
     }
+}
+
+// Function to set the build status on GitHub
+def setBuildStatus(String status, String description) {
+    def repoUrl = env.REPO_URL
+    def context = env.CONTEXT
+    def apiUrl = env.GITHUB_API_URL
+    def commitSha = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+    
+    def payload = [
+        state       : status,
+        description : description,
+        context     : context,
+        target_url  : "${env.BUILD_URL}"
+    ]
+
+    def json = new groovy.json.JsonBuilder(payload).toString()
+    def command = "curl -X POST -H 'Authorization: token ${GITHUB_TOKEN}' -H 'Content-Type: application/json' -d '${json}' ${apiUrl}/statuses/${commitSha}"
+
+    sh command
 }
