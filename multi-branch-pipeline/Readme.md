@@ -141,10 +141,15 @@ sudo systemctl status jenkins
 <img width="973" alt="Screenshot 2024-10-20 at 9 52 36 PM" src="https://github.com/user-attachments/assets/aa13bb8b-859d-48b4-bc0c-1a167bed511d">
 
 
+### Fail in-progress build if new commit is added 
 
+- we need to approve this nearly more than 5 times
+- Scripts not permitted to use staticMethod jenkins.model.Jenkins getInstance at PluginClassLoader for script-
 
+<img width="345" alt="Screenshot 2024-10-20 at 11 17 12 PM" src="https://github.com/user-attachments/assets/b9eec79a-a0c1-4661-8bca-0bfa2d15786a">
 
-
+- so 15 build will be on-going, but meanwhile if new commits are added, then 16 build will start and abort any on-going builds
+- this way, always new change build will be in tact and resources are not wasted
 
 
 
