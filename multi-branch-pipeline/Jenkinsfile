@@ -35,7 +35,7 @@ pipeline {
         stage('sleep stage') {
             steps {
                 script {
-                    // This stage stage is to check whether previous build is failed if new commit is pushed
+                    // This stage stage is to check whether previous build is failed if new commit is pushed.
                     sleep 30
                 }
             }
