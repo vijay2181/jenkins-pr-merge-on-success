@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'feature-add-changes', description: 'Branch to build')
+    }
+
+    environment {
+        REPO_URL = 'https://github.com/vijay2181/jenkins-pr-merge-on-success'
+        CONTEXT = 'ci/jenkins/build-status'
+        GITHUB_API_URL = 'https://api.github.com/repos/vijay2181/jenkins-pr-merge-on-success'
+    }
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    // Log the branch name being checked out
+                    echo "Checking out branch: ${env.pr_branch}"
+                    
+                    // Ensure branch name is set correctly
+                    def branchName = env.pr_branch
+                    git url: "${REPO_URL}", branch: branchName
+                    env.GIT_COMMIT = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+                }
+            }
+        }
+
+        stage('Build Steps') {
+            steps {
+                script {
+                    // Add your testing scripts here
+                    echo "Pull Request Number: ${env.pr_number}"
+                    echo "Pull Request ID: ${env.pr_id}"
+                    echo "Pull Request Action: ${env.action}"
+                    echo "Pull Request State: ${env.pr_state}"
+                    echo "Pull Request Branch: ${env.pr_branch}"
+                }
+            }
+        }
+
+    }
+
+    post {
+        success {
+            script {
+                setBuildStatus("success", "Build and tests succeeded")
+            }
+        }
+        failure {
+            script {
+                setBuildStatus("failure", "Build or tests failed")
+            }
+        }
+    }
+}
