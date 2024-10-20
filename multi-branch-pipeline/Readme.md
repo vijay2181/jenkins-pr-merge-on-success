@@ -90,14 +90,10 @@ sudo systemctl status jenkins
 - we need to get jenkins build status back to github PR, so that if build got success, then only allow to merge otherwise block merge
 - Jenkins Multi branch pipeline has defalt integration to status check
 - if you want you can create own context for status check
+- GitHub's default integration with Jenkins can automatically create a status check named continuous-integration/jenkins/pr-head.
+- GitHub can automatically create status checks named continuous-integration/jenkins/pr-head when a Jenkins job is configured to build pull requests using the GitHub branch source plugin.
+- This happens when you configure a Jenkins multibranch pipeline job with a GitHub source and have it set to build pull requests.
 
-```
-GitHub's default integration with Jenkins can automatically create a status check named continuous-integration/jenkins/pr-head.
-
-GitHub can automatically create status checks named continuous-integration/jenkins/pr-head when a Jenkins job is configured
-to build pull requests using the GitHub branch source plugin. This happens when you configure a Jenkins multibranch pipeline
-job with a GitHub source and have it set to build pull requests.
-```
 
 <img width="1650" alt="Screenshot 2024-10-20 at 9 30 32 PM" src="https://github.com/user-attachments/assets/cd1e5f25-b628-458b-b852-1ebbd9c98176">
 
