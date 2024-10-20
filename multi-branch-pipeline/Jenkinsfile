@@ -11,6 +11,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
+                    // Cancel previous builds if a new commit is pushed
+                    cancelPreviousBuilds()
+
                     // Use Jenkins environment variables for the branch name
                     def branchName = env.BRANCH_NAME
                     echo "Checking out branch: ${branchName}"
@@ -26,23 +29,38 @@ pipeline {
                 script {
                     // Add your testing scripts here
                     echo "Pull Request Number: ${env.CHANGE_ID}"
-                    echo "Pull Request Traget Branch: ${env.CHANGE_TARGET}"
+                    echo "Pull Request Target Branch: ${env.CHANGE_TARGET}"
                     echo "Pull Request Branch: ${env.BRANCH_NAME}"
                 }
             }
         }
 
-        stage('sleep stage') {
+        stage('Sleep Stage') {
             steps {
                 script {
-                    // This stage stage is to check whether previous build is failed if new commit is pushed.
+                    // This stage is to check whether the previous build has failed if a new commit is pushed.
+                    echo "Waiting for 30 seconds to check for new commits..."
                     sleep 30
                 }
             }
         }
     }
-}
 
+    post {
+        success {
+            script {
+                // Success actions, e.g., update GitHub status
+                setBuildStatus("success", "Build and tests succeeded")
+            }
+        }
+        failure {
+            script {
+                // Failure actions, e.g., update GitHub status
+                setBuildStatus("failure", "Build or tests failed")
+            }
+        }
+    }
+}
 
 def cancelPreviousBuilds() {
     // Check for other instances of this particular build, cancel any that are older than the current one
@@ -53,7 +71,7 @@ def cancelPreviousBuilds() {
     // Loop through all instances of this particular job/branch
     for (def build : currentJob.builds) {
         if (build.isBuilding() && (build.number.toInteger() < currentBuildNumber)) {
-            echo "Older build still queued. Sending kill signal to build number: ${build.number}"
+            echo "Older build still in progress. Sending kill signal to build number: ${build.number}"
             build.doStop()
         }
     }
