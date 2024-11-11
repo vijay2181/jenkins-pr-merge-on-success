@@ -121,6 +121,7 @@ To require branches to be up to date before merging and to add a status check in
 4. **Specify Status Checks**:
    - In the `Status checks found in the last week for this repository` dropdown, select `Pipelines as Code CI / ci` or `continuous-integration/jenkins/pr-head`.
    - Ensure that the status check is listed under `Required status checks`.
+   - click on 'Do not allow bypassing the above settings'
 
 5. **Require Branches to be Up to Date**:
    - Check the box for `Require branches to be up to date before merging`. This ensures that the branch being merged is up-to-date with the base branch.
