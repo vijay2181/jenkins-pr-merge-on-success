@@ -104,6 +104,31 @@ sudo systemctl status jenkins
 
 <img width="976" alt="Screenshot 2024-10-20 at 9 40 34 PM" src="https://github.com/user-attachments/assets/fbf8fe7b-a95e-4c20-a36f-fe0eb1dffca6">
 
+To require branches to be up to date before merging and to add a status check in a Git repository (assuming GitHub), follow these steps:
+
+1. **Navigate to the Repository Settings**:
+   - Go to your GitHub repository.
+   - Click on the `Settings` tab.
+
+2. **Enable Branch Protection Rules**:
+   - In the left sidebar, click on `Branches`.
+   - Under `Branch protection rules`, click `Add rule`.
+
+3. **Configure Branch Protection Rule**:
+   - Specify the branch name pattern (e.g., `main` or `master`).
+   - Check the box for `Require status checks to pass before merging`.
+
+4. **Specify Status Checks**:
+   - In the `Status checks found in the last week for this repository` dropdown, select `Pipelines as Code CI / ci` or `continuous-integration/jenkins/pr-head`.
+   - Ensure that the status check is listed under `Required status checks`.
+
+5. **Require Branches to be Up to Date**:
+   - Check the box for `Require branches to be up to date before merging`. This ensures that the branch being merged is up-to-date with the base branch.
+
+6. **Save Changes**:
+   - Click `Create` or `Update` to save the branch protection rule.
+
+### YOU CAN ALSO FOLLOW BELOW APPROACH 
 
 ### Block PR to Merge
 - if build is failed, then it should block the PR merge
@@ -155,6 +180,13 @@ sudo systemctl status jenkins
 
 
 
+### Summary
+
+Both approaches ensure code quality and stability but focus on different aspects:
+- **Requiring branches to be up-to-date** prevents merge conflicts by ensuring the branch is synchronized with the base branch.
+- **Blocking PR merges on failed status checks** ensures that only code that passes all required tests and checks is merged into the protected branch.
+
+Choose the approach (or combination of both) that best fits your workflow and ensures the highest code quality for your repository.
 
 
 
